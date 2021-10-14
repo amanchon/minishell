@@ -30,15 +30,15 @@
 # include <signal.h>
 # include <dirent.h>
 
-	int		g_status_n_pid[3];
+int	g_status_n_pid[3];
 
-typedef struct		s_coor
+typedef struct s_coor
 {
 	int				x;
 	int				y;
 }					t_coor;
 
-typedef struct		s_env
+typedef struct s_env
 {
 	char			*clef;
 	char			*valeur;
@@ -74,7 +74,7 @@ void	error_syntax(char *symbol);
 void	ft_exit(char **line, t_env *env);
 int		ft_putchar_tty(int c);
 int		error_d_redirect(char *end);
-void	prompt();
+void	prompt(void);
 void	free_env(t_env *env);
 t_coor	get_term_dimension(void);
 t_coor	get_cursor_pos(void);
@@ -107,8 +107,8 @@ void	get_term_attr(struct termios *new_term, struct termios *old_term);
 char	*read_instruction_line(t_env *env, t_coor *cursor_0);
 void	exec_fils(char **line, t_env *env);
 void	boucle_instructions(char **line, t_env *env);
-void	mark_var(char **s,int *i, int quote, int dquote);
-void	mark_tilde(char **s,int *i, int quote, int dquote);
+void	mark_var(char **s, int *i, int quote, int dquote);
+void	mark_tilde(char **s, int *i, int quote, int dquote);
 char	*replace_var(char *line, t_env *env);
 char	*replace_var_spe_redi(char *line, t_env *env);
 void	joker(char **line);
