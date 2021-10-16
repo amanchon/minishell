@@ -123,7 +123,7 @@ void	boucle_instructions(char **bigline, t_env *env)
 		bigline[i] = replace_var(bigline[i], env);
 		line = ft_split(bigline[i], " ");
 		normalize_dtab(line, 0);
-		joker(line);
+		joker(&line);
 		normalize_dtab(line, 1);
 		exec_fork(bigline, line, env);
 		if (line != NULL && line[0] != NULL)

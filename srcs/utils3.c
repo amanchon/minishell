@@ -55,7 +55,7 @@ char	**split_var_env(char *s, t_env *env)
 	i = 0;
 	dest = malloc(8 * 3);
 	if (dest == NULL)
-		return (NULL);
+		error_sys("malloc", -1);
 	while (s[i] != '\0' && s[i] != '=' && (s[i] != '+' || s[i + 1] != '='))
 		i++;
 	dest[0] = ft_strdup("");
@@ -67,5 +67,25 @@ char	**split_var_env(char *s, t_env *env)
 	if (i == 0)
 		return (dest);
 	split_var_env2(s, i, dest, env);
+	return (dest);
+}
+
+char	**spe_split_joker(char **dtab, char *sep)
+{
+	int		i;
+	char	*tmp;
+	char	**dest;
+
+	i = 0;
+	tmp = ft_strdup("");
+	while (dtab[i] != NULL)
+	{
+		tmp = ft_strmcat(tmp, dtab[i]);
+		tmp = ft_strmcat(tmp, sep);
+		i++;
+	}
+	free_dtab(dtab);
+	dest = ft_split(tmp, sep);
+	free(tmp);
 	return (dest);
 }

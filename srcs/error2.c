@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	error_exit(char **line, t_env *env)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(line[1], 2);
+	ft_putstr_fd(" : argument numérique nécessaire\n", 2);
+	free_env(env);
+	exit(2);
+}
+
 int	error_quote(int quote, int dquote, char *s)
 {
 	if (quote == 1 || dquote == 1)

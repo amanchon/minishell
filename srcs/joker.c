@@ -73,7 +73,7 @@ char	*find_files2(char **s_joker, char *dir_path, int i, struct dirent *file)
 	if (s_joker[i + 1] == NULL)
 	{
 		dest = ft_strmcatn(4, dest, ft_strdup(dir_path + 2),
-				ft_strdup(file->d_name), ft_strdup(" "));
+				ft_strdup(file->d_name), ft_strdup("\xD1"));
 	}
 	else if (file->d_type == 4)
 	{
@@ -111,28 +111,29 @@ char	*find_files(char **s_joker, char *dir_path, int i)
 	return (dest);
 }
 
-void	joker(char **line)
+void	joker(char ***line)
 {
 	int		i;
 	char	**dtab;
 	char	*tmp;
 
 	i = -1;
-	while (line[++i] != NULL)
+	while (line[0][++i] != NULL)
 	{
-		if (line[i][0] != '/' && ft_strchr(line[i], '\xCD') != NULL)
+		if (line[0][i][0] != '/' && ft_strchr(line[0][i], '\xCD') != NULL)
 		{
-			dtab = ft_split(line[i], "/");
+			dtab = ft_split(line[0][i], "/");
 			tmp = find_files(dtab, ft_strdup("."), 0);
 			if (tmp[0] != '\0')
 			{
-				free(line[i]);
+				free(line[0][i]);
 				tmp[ft_strlen(tmp) - 1] = '\0';
-				line[i] = ft_strdup(tmp);
+				line[0][i] = ft_strdup(tmp);
 			}
 			free(tmp);
 			free_dtab(dtab);
 		}
 	}
+	line[0] = spe_split_joker(line[0], "\xD1");
 	return ;
 }

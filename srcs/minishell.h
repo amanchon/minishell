@@ -45,6 +45,7 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+char	**spe_split_joker(char **dtab, char *sep);
 char	*find_files(char **s_joker, char *dir_path, int i);
 char	*insert(char *key, char *s, t_coor *cursor_0, t_coor cursor);
 char	*insert_del(char *s, t_coor *cursor_0, t_coor cursor, int rpos);
@@ -111,7 +112,7 @@ void	mark_var(char **s, int *i, int quote, int dquote);
 void	mark_tilde(char **s, int *i, int quote, int dquote);
 char	*replace_var(char *line, t_env *env);
 char	*replace_var_spe_redi(char *line, t_env *env);
-void	joker(char **line);
+void	joker(char ***line);
 char	*relative_to_absolute(char *r_path);
 t_coor	get_cursor_0(int rpos_cursor, t_coor cursor, t_coor dim);
 

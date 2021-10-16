@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-void	error_exit(char **line, t_env *env)
-{
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd(line[1], 2);
-	ft_putstr_fd(" : argument numérique nécessaire\n", 2);
-	free_env(env);
-	exit(2);
-}
-
 int	error_d_redirect(char *end)
 {
 	ft_putstr_fd("minishell: avertissement, document délimité par la fin ", 2);
@@ -56,19 +47,32 @@ void	error_syntax(char *symbol)
 	return ;
 }
 
-void	error_exec(char *cmd, int errnum)
+void	error_exec2(char *cmd, int errnum)
 {
-	if (errnum == 13 || errnum == 8)
+	if (errnum == 13)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		if (errnum == 8)
-			ft_putstr_fd(": n'est pas un exécutable\n", 2);
-		else
-			ft_putstr_fd(": Permission non accordée\n", 2);
+		ft_putstr_fd(": Permission non accordée\n", 2);
 		g_status_n_pid[0] = 126;
 	}
-	else if (errnum == 2)
+	else if (errnum == 8)
+		g_status_n_pid[0] = 0;
+	else
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(strerror(errnum), 2);
+		ft_putstr_fd("\n", 2);
+		g_status_n_pid[0] = errnum;
+	}
+}
+
+void	error_exec(char *cmd, int errnum)
+{
+	DIR	*dir;
+
+	errno = 0;
+	if (errnum == 2)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
@@ -77,12 +81,19 @@ void	error_exec(char *cmd, int errnum)
 	}
 	else
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(strerror(errnum), 2);
-		ft_putstr_fd("\n", 2);
-		g_status_n_pid[0] = errnum;
+		dir = opendir(cmd);
+		if (dir != NULL || (errno != ENOTDIR && errno != 0))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": est un dossier\n", 2);
+			g_status_n_pid[0] = 126;
+			if (dir != NULL)
+				closedir(dir);
+		}
+		else
+			error_exec2(cmd, errnum);
 	}
-	return ;
 }
 
 void	error_cmd(char *cmd, char *symbol, char *msg, int status)
