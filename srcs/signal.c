@@ -18,9 +18,9 @@ void	signal_minishell2(pid_t pid, int signum)
 	{
 		if (signum == SIGQUIT)
 			ft_putstr_fd("Quitter: 3\n", 1);
+		if (signum == SIGINT)
+			ft_putstr_fd("\n", 1);
 	}
-	else if (signum == SIGINT)
-		ft_putstr_fd("\n", 1);
 	return ;
 }
 
