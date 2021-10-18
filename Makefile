@@ -55,14 +55,9 @@ $(NAME):	$(UTILS_OBJS) $(OBJS) $(INCLUDE)
 	gcc -o $(NAME) $(OBJS) $(UTILS_OBJS) ${CFLAGS} -L./Libft -lft
 
 clean:
-	rm -f $(UTILS_OBJS) $(OBJS) $(BONUS_OBJS)
+	rm -f $(UTILS_OBJS) $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-rebonus : fclean bonus
-
-main:
-	gcc $(CFLAGS) main.c libftprintf.a
