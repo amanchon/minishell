@@ -18,12 +18,14 @@ int	is_error_pipe(char **dtab)
 	int		j;
 	char	**tmp;
 
-	i = 0;
-	while (dtab[i] != NULL)
+	i = -1;
+	if (dtab == NULL)
+		return (0);
+	while (dtab[++i] != NULL)
 	{
-		j = 0;
+		j = -1;
 		tmp = ft_split(dtab[i], " ");
-		while (tmp[j] != NULL)
+		while (tmp[++j] != NULL)
 		{
 			if (ft_strcmp(tmp[j], "\xC8") == 0
 				&& (j == 0 || tmp[j + 1] == NULL))
@@ -33,10 +35,8 @@ int	is_error_pipe(char **dtab)
 				free_dtab(dtab);
 				return (-1);
 			}
-			j++;
 		}
 		free_dtab(tmp);
-		i++;
 	}
 	return (0);
 }

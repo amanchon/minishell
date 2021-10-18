@@ -49,15 +49,13 @@ void	error_syntax(char *symbol)
 
 void	error_exec2(char *cmd, int errnum)
 {
-	if (errnum == 13)
+	if (errnum == 13 || errnum == 8)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": Permission non accordée\n", 2);
 		g_status_n_pid[0] = 126;
 	}
-	else if (errnum == 8)
-		g_status_n_pid[0] = 0;
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);

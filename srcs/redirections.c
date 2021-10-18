@@ -82,9 +82,11 @@ int	fd_redirection(char *line, int i, int *fd_in, int *fd_out)
 			close(*fd_in);
 	}
 	if (i == 1)
-		*fd_out = open(line, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+		*fd_out = open(line, O_CREAT | O_RDWR | O_TRUNC,
+			S_IRUSR + S_IWUSR + S_IRGRP + S_IWGRP + S_IROTH);
 	else if (i == 2)
-		*fd_out = open(line, O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
+		*fd_out = open(line, O_CREAT | O_RDWR | O_APPEND,
+			S_IRUSR + S_IWUSR + S_IRGRP + S_IWGRP + S_IROTH);
 	else if (i == 3)
 	{
 		*fd_in = open(line, O_RDONLY);
