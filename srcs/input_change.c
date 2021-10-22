@@ -16,13 +16,14 @@ char	*print_n_write_key(char *s, char *key, t_coor *c_0, t_coor c)
 {
 	t_coor	d;
 
+
 	d = get_term_dimension();
 	if (key[0] == '\n' || c.x - c_0->x + ((c.y - c_0->y) * d.x) == ft_strlen(s))
 	{
 		if (key[0] == '\n')
 		{
 			tputs(tgoto(tgetstr("cm", NULL), (c_0->x + ft_strlen(s)) % d.x,
-					c_0->y + (c_0->x + ft_strlen(s) / d.x)), 1, ft_putchar_tty);
+					c_0->y + ((c_0->x + ft_strlen(s)) / d.x)), 1, ft_putchar_tty);
 			write(0, key, 1);
 			return (s);
 		}
@@ -118,6 +119,8 @@ char	*change_input(char *key, char *s, t_coor *c_0, t_env *env)
 	static char	*real_str;
 	static int	line_hst;
 
+	if (key[0] == 9 && key[1] == '\0')
+		tab_to_spaces(key);
 	real_str = set_staticvar_history(s, real_str, &line_hst, "");
 	if (key[0] == 27 && (key[1] == 91 || key[1] == 79) && key[2] == 65
 		&& key[3] == 0 && get_env("HOME", env) != NULL)

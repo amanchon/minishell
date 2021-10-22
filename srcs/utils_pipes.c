@@ -65,31 +65,46 @@ int	ispipes(char **line, int n)
 	return (size);
 }
 
-char	***t_tab_pipes(char **line)
+char	***t_tab_pipes(char **line, int size)
 {
-	int		size;
 	int		i;
 	int		j;
+	int		k;
+	int		l;
 	char	***triple_tab;
 
-	size = ispipes(line, 3);
 	triple_tab = malloc(8 * (size + 2));
 	if (triple_tab == NULL)
 		error_sys("malloc", -1);
 	i = -1;
 	j = 0;
-	while (j < size)
+	k = -1;
+	l = 0;
+	while (ft_strcmp(line[l], "\xC8") != 0)
+		l++;
+	triple_tab[j] = malloc(8 * (l + 1));
+	if (triple_tab[j] == NULL)
+		error_sys("malloc", -1);
+	l = 0;
+	while (line[++i] != NULL)
 	{
-		if (ft_strcmp(line[++i], "\xC8") == 0)
+		if (ft_strcmp(line[i], "\xC8") == 0)
 		{
-			free(line[i]);
-			line[i] = NULL;
-			triple_tab[j++] = line;
-			line = line + i + 1;
-			i = -1;
+			triple_tab[j][++k] = NULL;
+			j = j + 1;
+			k = -1;
+			while (line[i + l + 1] != NULL
+					&& ft_strcmp(line[i + l + 1], "\xC8") != 0)
+				l++;
+			triple_tab[j] = malloc(8 * (l + 1));
+			if (triple_tab[j] == NULL)
+				error_sys("malloc", -1);
+			l = 0;
 		}
+		else
+			triple_tab[j][++k] = ft_strdup(line[i]);
 	}
-	triple_tab[j] = line;
+	triple_tab[j][++k] = NULL;
 	triple_tab[j + 1] = NULL;
 	return (triple_tab);
 }

@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void	free_all(char **line, t_env *env, char **bigline)
+{
+	free_dtab(line);
+	line = NULL;
+	free_env(env);
+	env = NULL;
+	if (bigline != NULL)
+	{
+		free_dtab(bigline);
+		bigline = NULL;
+	}
+	return ;
+}
+
 t_env	*init(struct termios *new_term, struct termios *old_term, char **envp,
 char *name)
 {
@@ -28,29 +42,6 @@ char *name)
 	return (env);
 }
 
-void	prompt(void)
-{
-	char	b[255];
-
-	if (g_status_n_pid[2] != 1)
-	{
-		ft_putstr_fd("\033[1;32m", 2);
-		write(2, "======> ", 8);
-		ft_putstr_fd("\033[0m", 2);
-		return ;
-	}
-	tputs(tgetstr("vi", NULL), 1, ft_putchar_tty);
-	ft_putstr_fd("\033[1;32m", 2);
-	write(2, "===", 3);
-	ft_putstr_fd("\033[1;34m", 2);
-	write(2, getcwd(b, 255), ft_strlen(getcwd(b, 255)));
-	ft_putstr_fd("\033[1;32m", 2);
-	write(2, "===> ", 5);
-	ft_putstr_fd("\033[0m", 2);
-	tputs(tgetstr("ve", NULL), 1, ft_putchar_tty);
-	return ;
-}
-
 void	non_interactive(char *s, t_env *env)
 {
 	char	**line;
@@ -63,8 +54,17 @@ void	non_interactive(char *s, t_env *env)
 
 void	interpret_n_treat(char *s, t_env *env)
 {
-	char			**line;
+	char	**line;
+	int		i;
 
+	i = 0;
+	while (s[i] == ' ' || s[i] == 9)
+		i++;
+	if (s[i] == '\0')
+	{
+		free(s);
+		return ;
+	}
 	fill_history(s, env);
 	line = interpret_line(s);
 	if (line != NULL)

@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void	tab_to_spaces(char *key)
+{
+	key[0] = ' ';
+	key[1] = ' ';
+	key[2] = ' ';
+	key[3] = ' ';
+	key[4] = ' ';
+	key[5] = ' ';
+	key[6] = ' ';
+	key[7] = ' ';
+	key[8] = '\0';
+	return ;
+}
+
 int	check_dim(t_coor dim_0, char **txt)
 {
 	t_coor	dim;

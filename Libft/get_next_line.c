@@ -28,14 +28,20 @@ int	nblines(char *line, int nb)
 	return (l);
 }
 
-int	findfirstn(char *line)
+int	findfirstn(char **line, int opt_fill0)
 {
 	int	i;
 
-	i = 0;
-	while (line[i] != '\0')
+	if (opt_fill0 >= 0)
 	{
-		if (line[i] == '\n')
+		while (opt_fill0 < ft_strlen(line[0]))
+			line[0][opt_fill0++] = '\0';
+		return (0);
+	}
+	i = 0;
+	while (line[0][i] != '\0')
+	{
+		if (line[0][i] == '\n')
 			return (i);
 		i++;
 	}
@@ -54,7 +60,7 @@ int	ft_retval(int rd, int numline, char **mem)
 	}
 	if (numline > 0)
 	{
-		tmp = ft_strdup(*mem + findfirstn(*mem) + 1);
+		tmp = ft_strdup(*mem + findfirstn(mem, -1) + 1);
 		free(*mem);
 		*mem = ft_strdup(tmp);
 		free(tmp);
@@ -91,8 +97,10 @@ int	get_next_line(const int fd, char **line)
 	int			rd;
 	static char	*mem[4200];
 	int			i;
+	char		b[1];
 
-	if (!line || fd < 0 || BUFFER_SIZE < 1 || read(fd, line[0], 0) < 0)
+	rd = 0;
+	if (!line || fd < 0 || BUFFER_SIZE < 1 || read(fd, b, 0) < 0)
 		return (-1);
 	*line = NULL;
 	if (mem[fd] == NULL)
@@ -108,8 +116,7 @@ int	get_next_line(const int fd, char **line)
 			return (-1);
 	}
 	*line = ft_strdup(mem[fd]);
-	i = findfirstn(mem[fd]);
-	while (i < ft_strlen(line[0]))
-		line[0][i++] = '\0';
+	i = findfirstn(&mem[fd], -1);
+	findfirstn(line, i);
 	return (ft_retval(rd, nblines(mem[fd], 0), &mem[fd]));
 }

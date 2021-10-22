@@ -22,6 +22,7 @@ UTILS_SRCS = 	./srcs/utils.c \
 				./srcs/utils_redi.c \
 
 SRCS =			./srcs/main.c \
+				./srcs/prompt.c \
 				./srcs/builtin_cd.c \
 				./srcs/builtins_env.c \
 				./srcs/export_unset.c \

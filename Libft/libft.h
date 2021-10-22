@@ -65,5 +65,6 @@ long long int			ft_atoll(char *str);
 void					free_dtab(char **dtab);
 char					*ft_insert_str(char *str, int i, int k, char *insert);
 char					*ft_ctostr(int size, char c);
+char					**ft_dtabdup(char **src);
 
 #endif

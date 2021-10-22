@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	exec_cmd_env(char **line, t_env *env)
+void	exec_cmd_env(char **line, t_env *env, char **bigline)
 {
 	int	k;
 
@@ -34,11 +34,11 @@ void	exec_cmd_env(char **line, t_env *env)
 			export(line[k], env);
 	}
 	else if (ft_strcmp(line[0], "exit") == 0)
-		ft_exit(line, env);
+		ft_exit(line, env, bigline);
 	return ;
 }
 
-int	cmd_env(char **line, t_env *env)
+int	cmd_env(char **line, t_env *env, char **bigline)
 {
 	int	k;
 	int	in_out_err[3];
@@ -52,7 +52,7 @@ int	cmd_env(char **line, t_env *env)
 	in_out_err[2] = dup(2);
 	k = redirections(line, &redi_out, &redi_in, env);
 	g_status_n_pid[0] = k;
-	exec_cmd_env(line, env);
+	exec_cmd_env(line, env, bigline);
 	dup2(in_out_err[0], 0);
 	dup2(in_out_err[1], 1);
 	dup2(in_out_err[2], 2);
@@ -76,5 +76,7 @@ int	cmd(char *cmd, char **line, t_env *env)
 		ft_echo(line);
 	else
 		return (-1);
+	free_dtab(line);
+	free_env(env);
 	return (0);
 }

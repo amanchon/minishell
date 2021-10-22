@@ -12,36 +12,48 @@
 
 #include "minishell.h"
 
-void	exec_pipe(char ***line, t_env *env)
+void	exec_pipe(char **line, t_env *env)
 {
-	if (is_cmd_env(line[0]) != -1)
+	if (is_cmd_env(line) != -1)
 	{
-		cmd_env(line[0], env);
-		exit(g_status_n_pid[0]);
+		cmd_env(line, env, NULL);
+		free_all(line, env, NULL);
 	}
-	if (g_status_n_pid[0] != 0)
-		exit(g_status_n_pid[0]);
-	if (cmd(line[0][0], line[0], env) == -1)
-		exec_instruction(line[0][0], line[0], env);
+	else if (g_status_n_pid[0] != 0)
+	{
+		free_all(line, env, NULL);
+	}
+	else if (cmd(line[0], line, env) == -1)
+	{
+		exec_instruction(line[0], line, env);
+	}
 	exit(g_status_n_pid[0]);
 }
 
 void	pipe_exec_n_wait(char ***line_pipe, int i, t_env *env)
 {
-	int	status;
-	int	waiit;
+	char	**line;
+	int		status;
+	int		waiit;
 
 	if (g_status_n_pid[1] == 0)
-		exec_pipe(line_pipe + i, env);
+	{
+		line = ft_dtabdup(line_pipe[i]);
+		free_triple_tab(line_pipe);
+		if (line == NULL)
+			error_sys("malloc", -1);
+		exec_pipe(line, env);
+	}
+	waiit = wait(&status);
+	if (WIFEXITED(status))
+		g_status_n_pid[0] = WEXITSTATUS(status);
 	while (1)
 	{
 		waiit = wait(&status);
 		if (waiit < 0)
 			break ;
-		if (WIFEXITED(status))
-			g_status_n_pid[0] = WEXITSTATUS(status);
 	}
-	free(line_pipe);
+	free_env(env);
 	return ;
 }
 
@@ -87,7 +99,8 @@ void	pipes(char **line, t_env *env, int i)
 	in_out_err[0] = dup(0);
 	in_out_err[1] = dup(1);
 	in_out_err[2] = dup(2);
-	line_pipe = t_tab_pipes(line);
+	line_pipe = t_tab_pipes(line, ispipes(line, 3));
+	free_dtab(line);
 	fdd = 0;
 	while (g_status_n_pid[1] != 0 && line_pipe[++i] != NULL)
 	{
@@ -101,4 +114,5 @@ void	pipes(char **line, t_env *env, int i)
 		pipe_close_fd(&fdd, pfd, in_out_err);
 	}
 	pipe_exec_n_wait(line_pipe, i, env);
+	free_triple_tab(line_pipe);
 }

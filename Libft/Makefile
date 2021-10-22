@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-SRC =	ft_atoi.c\
+SRC =			ft_atoi.c\
 				ft_split.c\
                 ft_strdup.c\
                 ft_isdigit.c\
@@ -53,6 +53,7 @@ SRC =	ft_atoi.c\
 				ft_strmcatn.c\
 				get_next_line.c\
 				free_dtab.c\
+				ft_dtabdup.c \
 				ft_atoull.c\
 
 FLAGS = -Wall -Werror -Wextra

@@ -53,12 +53,13 @@ void	exec_instruction2(char *cmd, char **line, t_env *env, char **dtab_env)
 			if (path_inst != NULL)
 				free_dtab(path_inst);
 			free_dtab(dtab_env);
+			free_env(env);
+			free_dtab(line);
 			return ;
 		}
 		full_path = ft_strmcatn(3, ft_strdup(path_inst[i]), ft_strdup("/"),
 				ft_strdup(cmd));
 	}
-	return ;
 }
 
 void	exec_instruction(char *cmd, char **line, t_env *env)
@@ -80,6 +81,8 @@ void	exec_instruction(char *cmd, char **line, t_env *env)
 			error_exec(cmd, (int)errno);
 		free(full_path);
 		free_dtab(dtab_env);
+		free_env(env);
+		free_dtab(line);
 		return ;
 	}
 	exec_instruction2(cmd, line, env, dtab_env);

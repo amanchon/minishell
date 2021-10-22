@@ -64,7 +64,7 @@ int	ft_exit_get_num(char **line, t_env *env)
 	return ((int)j);
 }
 
-void	ft_exit(char **line, t_env *env)
+void	ft_exit(char **line, t_env *env, char **bigline)
 {
 	int	j;
 
@@ -78,5 +78,6 @@ void	ft_exit(char **line, t_env *env)
 		g_status_n_pid[0] = 1;
 		return ;
 	}
+	free_all(line, env, bigline);
 	exit(j);
 }

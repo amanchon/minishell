@@ -47,13 +47,16 @@ t_coor	get_cursor_pos(void)
 		write(0, "\x1b[6n", 4);
 		rd = read(0, cursor_pos, 16);
 		if (rd < 0)
-			exit(-1);
+			error_sys("read", errno);
 		cursor_pos[rd] = '\0';
-		i = 2;
-		cursor.y = ft_atoi(cursor_pos + i) - 1;
-		while (ft_isdigit(cursor_pos[i]))
-			i++;
-		cursor.x = ft_atoi(cursor_pos + i + 1) - 1;
+		if (rd >= 6)
+		{
+			i = 2;
+			cursor.y = ft_atoi(cursor_pos + i) - 1;
+			while (ft_isdigit(cursor_pos[i]))
+				i++;
+			cursor.x = ft_atoi(cursor_pos + i + 1) - 1;
+		}
 	}
 	return (cursor);
 }

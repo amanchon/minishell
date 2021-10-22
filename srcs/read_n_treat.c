@@ -44,6 +44,8 @@ char	*read_instruction_line(t_env *env, t_coor *cursor_0)
 		if ((int)(buf[0]) == 4 && ft_strlen(s) == 0)
 		{
 			ft_putstr_fd("exit\n", 2);
+			free_env(env);
+			free(s);
 			exit(0);
 		}
 		if (check_dim_n_status(cursor_0, &dim_0, &s) > 0)
@@ -75,8 +77,8 @@ void	exec_fils(char **line, t_env *env)
 		status = redirections(line, &redi_out, &redi_in, env);
 		g_status_n_pid[0] = status;
 		if (status != 0)
-			exit(g_status_n_pid[0]);
-		if (ispipes(line, 2) != -1 && cmd(line[0], line, env) == -1)
+			free_all(line, env, NULL);
+		else if (ispipes(line, 2) != -1 && cmd(line[0], line, env) == -1)
 			exec_instruction(line[0], line, env);
 	}
 	exit(g_status_n_pid[0]);
@@ -108,7 +110,7 @@ void	exec_fork(char **bigline, char **line, t_env *env)
 		}
 	}
 	else
-		cmd_env(line, env);
+		cmd_env(line, env, bigline);
 }
 
 void	boucle_instructions(char **bigline, t_env *env)
