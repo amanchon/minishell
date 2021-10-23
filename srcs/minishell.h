@@ -107,7 +107,7 @@ void	exec_instruction(char *cmd, char **line, t_env *env);
 int		cmd(char *cmd, char **line, t_env *env);
 int		cmd_env(char **line, t_env *env, char **bigline);
 void	get_term_attr(struct termios *new_term, struct termios *old_term);
-char	*read_instruction_line(t_env *env, t_coor *cursor_0);
+char	*read_instruction_line(t_env *env, t_coor *cursor_0, t_coor dim_0);
 void	exec_fils(char **line, t_env *env);
 void	boucle_instructions(char **line, t_env *env);
 void	mark_var(char **s, int *i, int quote, int dquote);

@@ -76,7 +76,7 @@ void	t_tab_pipes2(char ***triple_tab, char **line, int *j, int *k)
 	{
 		if (ft_strcmp(line[i], "\xC8") == 0)
 		{
-			triple_tab[*j][++k] = NULL;
+			triple_tab[*j][++(*k)] = NULL;
 			j = j + 1;
 			*k = -1;
 			while (line[i + l + 1] != NULL
