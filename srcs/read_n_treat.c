@@ -27,14 +27,12 @@ int	check_dim_n_status(t_coor *cursor_0, t_coor *dim_0, char **s)
 	return (0);
 }
 
-char	*read_instruction_line(t_env *env, t_coor *cursor_0)
+char	*read_instruction_line(t_env *env, t_coor *cursor_0, t_coor dim_0)
 {
 	char	buf[256];
 	char	*s;
 	int		rd;
-	t_coor	dim_0;
 
-	dim_0 = get_term_dimension();
 	s = ft_strdup("");
 	while (1)
 	{

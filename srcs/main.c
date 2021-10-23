@@ -98,7 +98,7 @@ int	main(int ac, char **av, char **envp)
 		prompt();
 		tcsetattr(0, TCSANOW, &new_term);
 		cursor_0 = get_cursor_pos();
-		s = read_instruction_line(env, &cursor_0);
+		s = read_instruction_line(env, &cursor_0, get_term_dimension());
 		tcsetattr(0, TCSANOW, &old_term);
 		interpret_n_treat(s, env);
 	}

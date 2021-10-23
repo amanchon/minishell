@@ -16,14 +16,14 @@ char	*print_n_write_key(char *s, char *key, t_coor *c_0, t_coor c)
 {
 	t_coor	d;
 
-
 	d = get_term_dimension();
 	if (key[0] == '\n' || c.x - c_0->x + ((c.y - c_0->y) * d.x) == ft_strlen(s))
 	{
 		if (key[0] == '\n')
 		{
 			tputs(tgoto(tgetstr("cm", NULL), (c_0->x + ft_strlen(s)) % d.x,
-					c_0->y + ((c_0->x + ft_strlen(s)) / d.x)), 1, ft_putchar_tty);
+					c_0->y + ((c_0->x + ft_strlen(s)) / d.x)),
+				1, ft_putchar_tty);
 			write(0, key, 1);
 			return (s);
 		}
