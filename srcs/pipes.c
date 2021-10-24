@@ -44,7 +44,7 @@ void	pipe_exec_n_wait(char ***line_pipe, int i, t_env *env)
 			error_sys("malloc", -1);
 		exec_pipe(line, env);
 	}
-	waiit = wait(&status);
+	waiit = waitpid(g_status_n_pid[1], &status, 0);
 	if (WIFEXITED(status))
 		g_status_n_pid[0] = WEXITSTATUS(status);
 	while (1)
