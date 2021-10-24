@@ -12,7 +12,7 @@
 
 NAME = minishell
 INCLUDE = ./srcs/minishell.h
-CFLAGS = -Wall -Wextra -Werror -ltermcap -lncurses -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -ltermcap -lncurses #-fsanitize=address -g3
 
 UTILS_SRCS = 	./srcs/utils.c \
 				./srcs/utils2.c \
