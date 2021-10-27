@@ -52,7 +52,7 @@ t_env	*make_env(char *name)
 			ft_strdup("/"), ft_strdup(name));
 	export(term, dest);
 	free(term);
-	return (dest);
+	return (first);
 }
 
 t_env	*fill_env_next(t_env *first, char **env, int i)
@@ -114,7 +114,7 @@ t_env	*fill_env(char **env, char *name)
 	t_env	*first;
 
 	i = 0;
-	if (env == NULL)
+	if (env == NULL || env[0] == NULL)
 		return (make_env(name));
 	while (env[i] != NULL)
 		i++;
