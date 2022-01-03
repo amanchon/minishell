@@ -92,7 +92,7 @@ char	*find_files(char **s_joker, char *dir_path, int i)
 	dest = ft_strdup("");
 	dir = opendir(dir_path);
 	dir_path = ft_strmcat(dir_path, "/");
-	while (1)
+	while (dir != NULL)
 	{
 		file = readdir(dir);
 		if (file == NULL)
