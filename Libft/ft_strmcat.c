@@ -40,3 +40,4 @@ char	*ft_strmcat(char *src, char *add)
 	src = NULL;
 	return (dest);
 }
+

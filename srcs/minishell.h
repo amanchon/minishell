@@ -30,7 +30,7 @@
 # include <signal.h>
 # include <dirent.h>
 
-int	g_status_n_pid[3];
+extern int	g_status_n_pid[3];
 
 typedef struct s_coor
 {

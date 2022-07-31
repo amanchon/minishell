@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_status_n_pid[3];
+
 void	free_all(char **line, t_env *env, char **bigline)
 {
 	free_dtab(line);
