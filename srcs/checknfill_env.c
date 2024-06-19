@@ -114,7 +114,7 @@ t_env	*fill_env(char **env, char *name)
 	t_env	*first;
 
 	i = 0;
-	if (env == NULL || env[0] == NULL)
+	if (env == NULL || env[0] == NULL || (env[0][0] == '_' && env[1] == NULL))
 		return (make_env(name));
 	while (env[i] != NULL)
 		i++;
